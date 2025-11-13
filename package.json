@@ -1,0 +1,18 @@
+{
+  "name": "caro-ai-backend",
+  "version": "1.0.0",
+  "description": "Caro AI API for Vercel",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "caro",
+    "gomoku",
+    "ai",
+    "vercel"
+  ],
+  "author": "",
+  "license": "ISC"
+}
