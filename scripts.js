@@ -24,7 +24,7 @@ $(function () {
     var btn_nextmove = $('#btn_nextmove').click(game_nextmove);
     var panel_gamearea = document.getElementById('panel_gamearea');
     var ai_msg = $('#ai_msg');
-    var div_pb_outer = $('#div_pb_outer');    // Progress bar
+    var div_pb_outer = $('#div_pb_outer');
     var div_pb_inner = $('#div_pb_inner');
     // END OBJECTS
 
@@ -182,7 +182,6 @@ $(function () {
     }
     function server_win(cmd) {
         cmd = cmd.map(function (x) { return parseInt(x); });
-        //console.log(cmd);
         var up = [], defer = [];
         for (var i = 1; i < 10; i += 2) {
             up.push({ x: cmd[i], y: cmd[i + 1], change: { win_move: true } });
@@ -200,7 +199,6 @@ $(function () {
     }
 
     function socket_send(msg) {
-        //console.log("client: " + msg);
         if (!progress_on)
             ksh_send_input_string(msg);
     }
@@ -268,33 +266,37 @@ $(function () {
     // END GAME
 
     // === BOARD ===
-    // Preset graphics
-    var svg_lines = [
-        '<line x1="50%" y1="0" x2="50%" y2="50%" style="stroke:rgb(110,110,110); stroke-width:2px;" />',
-        '<line x1="0" y1="50%" x2="50%" y2="50%" style="stroke:rgb(110,110,110); stroke-width:2px;" />',
-        '<line x1="50%" y1="50%" x2="50%" y2="100%" style="stroke:rgb(110,110,110); stroke-width:2px;" />',
-        '<line x1="50%" y1="50%" x2="100%" y2="50%" style="stroke:rgb(110,110,110); stroke-width:2px;" />',
+    
+    // Hàm tính số thứ tự ô (1-256)
+    function get_cell_number(r, c) {
+        return r * board_size + c + 1;
+    }
 
+    // Preset graphics
+    // Dùng để đánh dấu thắng/thua và nước đi mới
+    var svg_lines = [
+        '', // 0: EMPTY
+        '', // 1: EMPTY
+        '', // 2: EMPTY
+        '', // 3: EMPTY
+
+        // 4: Win/Undo Move marker (Cross-hair đỏ)
         '<line x1="35%" y1="50%" x2="65%" y2="50%" style="stroke:rgb(255,0,0); stroke-width:2px;" />' +
         '<line x1="50%" y1="35%" x2="50%" y2="65%" style="stroke:rgb(255,0,0); stroke-width:2px;" />'
     ];
     var svg_circles = [
-        //'<circle cx="50%" cy="50%" r="32%" fill="#fff" />',
-        //'<circle cx="50%" cy="50%" r="32%" fill="#333" />'
-        '<use xlink:href="#white_piece" />',
-        '<use xlink:href="#black_piece" />'
+        '<use xlink:href="#white_piece" />', // Piece 2 (O)
+        '<use xlink:href="#black_piece" />'  // Piece 1 (X)
     ];
-    var svg_newmove = [
-        '<line x1="35%" y1="50%" x2="65%" y2="50%" style="stroke:#777; stroke-width:2px;" />' +
-        '<line x1="50%" y1="35%" x2="50%" y2="65%" style="stroke:#777; stroke-width:2px;" />',
-        '<line x1="35%" y1="50%" x2="65%" y2="50%" style="stroke:#e2e2e2; stroke-width:2px;" />' +
-        '<line x1="50%" y1="35%" x2="50%" y2="65%" style="stroke:#e2e2e2; stroke-width:2px;" />',
+    
+    // Đánh dấu nước đi mới (Highlight) - Vòng tròn cam quanh quân cờ
+    var svg_highlight = [
+        '<circle cx="50%" cy="50%" r="45%" style="fill:none; stroke:orange; stroke-width:3px; stroke-opacity:0.8;" />'
     ];
-    var svg_number = [
-        '<text x="50%" y="52%" fill="#333" alignment-baseline="middle" text-anchor="middle" font-weight="bold">',
-        '<text x="50%" y="52%" fill="#fff" alignment-baseline="middle" text-anchor="middle" font-weight="bold">'
-    ];
-    var colors = ['#bbb', '#777', '#eee'];
+
+    // Thẻ cơ sở để hiển thị số ô
+    var svg_number_tag = '<text x="50%" y="52%" alignment-baseline="middle" text-anchor="middle" font-weight="bold" font-size="35%">';
+
 
     var tbl_board = document.getElementById('tbl_board');
     var div_gamearea = document.getElementById('div_gamearea');
@@ -306,25 +308,47 @@ $(function () {
             'xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" ' +
             'xmlns:xlink="http://www.w3.org/1999/xlink">';
 
-        // Grid (lines)
-        if (x > 0) svg += svg_lines[0];
-        if (y > 0) svg += svg_lines[1];
-        if (x < board_size - 1) svg += svg_lines[2];
-        if (y < board_size - 1) svg += svg_lines[3];
+        var cell_num = get_cell_number(x, y);
+        // Màu chữ mặc định (khi ô trống)
+        var text_color = '#555'; 
 
-        // Inner content
+        // 1. Inner content (Quân cờ, đánh dấu)
         if (!data.empty) {
+            // Vẽ Quân cờ (Piece)
             if (data.piece) svg += svg_circles[data.piece - 1];
-            if (data.win_move) svg += svg_lines[4];
-            if (data.new_move) svg += svg_newmove[data.piece - 1];
-            if (data.piece && data.move_num && data.disp_num)
-                svg += svg_number[data.piece - 1] + data.move_num + '</text>';
+
+            // Cập nhật màu chữ cho số ô khi có quân cờ
+            // Nếu là quân đen (1) -> chữ trắng. Nếu là quân trắng (2) -> chữ đen.
+            text_color = data.piece === 1 ? '#fff' : '#333';
+        
+            // 2. Đánh dấu Nước đi Mới (Highlight - Vòng tròn cam)
+            if (data.new_move) {
+                svg += svg_highlight[0]; 
+            }
+            
+            // 3. Đánh dấu Thắng/Thua và Số thứ tự nước đi (Win/Move Number)
+            if (data.win_move) svg += svg_lines[4]; // Cross-hair đỏ cho winning moves
+            
+            if (data.piece && data.move_num && data.disp_num) {
+                // Hiển thị số nước đi (Move Number) ở lớp trên cùng (khi bật show moves)
+                var move_num_color = data.piece === 1 ? '#e2e2e2' : '#777'; 
+                var move_num_size = Math.min(cell.offsetWidth, cell.offsetHeight) * 0.28;
+                svg += '<text x="50%" y="50%" fill="' + move_num_color + '" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-size="' + move_num_size + 'px">' + data.move_num + '</text>';
+            }
+
         }
-        if (data.undo_move) svg += svg_lines[4];
+        
+        // 4. Thêm số ô (Cell Number 1-256) - LUÔN LUÔN VẼ ở lớp trên cùng với màu chữ được điều chỉnh
+        // Đây là cách đảm bảo số ô luôn hiện trên quân cờ.
+        svg += svg_number_tag + '<tspan fill="' + text_color + '">' + cell_num + '</tspan></text>';
+        
+        // Đánh dấu Undo Move (nếu có, dùng cross-hair)
+        if (data.undo_move) svg += svg_lines[4]; 
 
         // Update node
         cell.innerHTML = svg + '</svg>';
     }
+    
     function apply_update(up) {
         if (!up) return;
         up.forEach(function (elem) {
@@ -334,7 +358,6 @@ $(function () {
         });
     }
     function render_board(update, update_defer, change_all) {
-        //console.log(update, update_defer);
         apply_update(board_update_defer);
         apply_update(update);
         board_update_defer = update_defer;
@@ -345,7 +368,6 @@ $(function () {
                     for (var c = 0; c < board_size; c++)
                         for (var name in change_all)
                             board[r][c][name] = change_all[name];
-                //console.log(board);
             }
             rerender_all();
         }
@@ -357,37 +379,32 @@ $(function () {
     }
 
     function init_board() {
-        // Automatically adjust display size
         var container_size = panel_gamearea.offsetWidth - 32;
 
-        // Control table size with cell size
         var cell_width = Math.floor(container_size / board_size);
         var cell_height = Math.floor(container_size / board_size);
 
-        // No more blurry
         cell_width -= cell_width % 2;
         cell_height -= cell_height % 2;
 
-        // Set containing div size
         div_gamearea.style.width = cell_width * board_size + 'px';
         div_gamearea.style.height = cell_height * board_size + 'px';
 
-        // Initialize tbl_board
         tbl_board.innerHTML = "";
         for (var r = 0; r < board_size; r++) {
             var row = tbl_board.insertRow();
             for (var c = 0; c < board_size; c++) {
-                // New cell and data
                 var cell = row.insertCell();
                 cell.r = r; cell.c = c;
                 cell.board_data = 0;
 
-                // Style
                 cell.width = cell_width; cell.height = cell_height;
                 cell.style.padding = '0';
                 cell.style.verticalAlign = 'bottom';
+                
+                cell.style.border = '1px solid #777'; 
+                cell.style.backgroundColor = '#f4f0dc'; 
 
-                // Handle click event
                 cell.addEventListener("click", tblBoardOnClick);
             }
         }
@@ -434,4 +451,3 @@ $(function () {
     $('#row_setting, #row_play').hide();
     set_panel_state(false);
 });
-
