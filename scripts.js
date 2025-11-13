@@ -5,7 +5,7 @@ $(function () {
     var ksh_get_output_string = null;
 
     // === VARS ===
-    var board_size = 15;
+    var board_size = 16;
     var board, board_update_defer, board_history;
     var move_cnt = 0;
     var undo_remain = 0;
@@ -434,3 +434,4 @@ $(function () {
     $('#row_setting, #row_play').hide();
     set_panel_state(false);
 });
+
