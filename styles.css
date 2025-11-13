@@ -175,9 +175,16 @@ h4 small {
 }
 
 #tbl_board {
-    border-collapse: collapse;
+    border-collapse: separate; 
     border-spacing: 0;
-    background-color: #44f061;
+    background-color: transparent;
+    border: 1px solid #777; 
+}
+
+#tbl_board td {
+    border: 1px solid #777;
+    box-sizing: border-box;
+    padding: 0;
 }
 
 #game_status {
@@ -360,4 +367,5 @@ section.ai-selector {
 .svg_demo_board {
     float: left;
     margin-right: 20px;
+
 }
