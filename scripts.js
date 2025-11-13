@@ -4,15 +4,12 @@ $(function () {
     var ksh_send_input_string = null;
     var ksh_get_output_string = null;
 
-    // === VARS ===
     var board_size = 16;
     var board, board_update_defer, board_history;
     var move_cnt = 0;
     var undo_remain = 0;
     var cur_reply_cnt = 0;
-    // END VARS
 
-    // === OBJECTS ===
     var game_status = $('#game_status');
     var panel_status = $('#panel_status');
     var btn_start = $('#btn_start').click(start_game);
@@ -26,9 +23,7 @@ $(function () {
     var ai_msg = $('#ai_msg');
     var div_pb_outer = $('#div_pb_outer');
     var div_pb_inner = $('#div_pb_inner');
-    // END OBJECTS
 
-    // === SOCKET ===
     function on_loaded_wasm() {
         Module._ksh_start();
         ksh_send_input_string = Module.cwrap('ksh_send_input', null, ['string']);
@@ -202,9 +197,7 @@ $(function () {
         if (!progress_on)
             ksh_send_input_string(msg);
     }
-    // END SOCKET
 
-    // === GAME ===
     function start_game() {
         btn_start.prop('disabled', true);
         ai_logs.value = '';
@@ -253,48 +246,38 @@ $(function () {
     document.onkeydown = function (e) {
         var enable = btn_prevmove.css('display') !== 'none';
         switch (e.keyCode) {
-            case 37: // left
-            case 38: // up
+            case 37: 
+            case 38: 
                 if (enable) { game_prevmove(); e.preventDefault(); }
                 break;
-            case 39: // right
-            case 40: // down
+            case 39: 
+            case 40: 
                 if (enable) { game_nextmove(); e.preventDefault(); }
                 break;
         }
     };
-    // END GAME
 
-    // === BOARD ===
-    
-    // Hàm tính số thứ tự ô (1-256)
     function get_cell_number(r, c) {
         return r * board_size + c + 1;
     }
 
-    // Preset graphics
-    // Dùng để đánh dấu thắng/thua và nước đi mới
     var svg_lines = [
-        '', // 0: EMPTY
-        '', // 1: EMPTY
-        '', // 2: EMPTY
-        '', // 3: EMPTY
-
-        // 4: Win/Undo Move marker (Cross-hair đỏ)
+        '', 
+        '', 
+        '', 
+        '', 
         '<line x1="35%" y1="50%" x2="65%" y2="50%" style="stroke:rgb(255,0,0); stroke-width:2px;" />' +
         '<line x1="50%" y1="35%" x2="50%" y2="65%" style="stroke:rgb(255,0,0); stroke-width:2px;" />'
     ];
     var svg_circles = [
-        '<use xlink:href="#white_piece" />', // Piece 2 (O)
-        '<use xlink:href="#black_piece" />'  // Piece 1 (X)
+        '<use xlink:href="#white_piece" />',
+        '<use xlink:href="#black_piece" />'
     ];
     
-    // Đánh dấu nước đi mới (Highlight) - Vòng tròn cam quanh quân cờ
     var svg_highlight = [
         '<circle cx="50%" cy="50%" r="45%" style="fill:none; stroke:orange; stroke-width:3px; stroke-opacity:0.8;" />'
     ];
 
-    // Thẻ cơ sở để hiển thị số ô
     var svg_number_tag = '<text x="50%" y="52%" alignment-baseline="middle" text-anchor="middle" font-weight="bold" font-size="35%">';
 
 
@@ -309,43 +292,30 @@ $(function () {
             'xmlns:xlink="http://www.w3.org/1999/xlink">';
 
         var cell_num = get_cell_number(x, y);
-        // Màu chữ mặc định (khi ô trống)
         var text_color = '#555'; 
 
-        // 1. Inner content (Quân cờ, đánh dấu)
         if (!data.empty) {
-            // Vẽ Quân cờ (Piece)
             if (data.piece) svg += svg_circles[data.piece - 1];
 
-            // Cập nhật màu chữ cho số ô khi có quân cờ
-            // Nếu là quân đen (1) -> chữ trắng. Nếu là quân trắng (2) -> chữ đen.
             text_color = data.piece === 1 ? '#fff' : '#333';
         
-            // 2. Đánh dấu Nước đi Mới (Highlight - Vòng tròn cam)
             if (data.new_move) {
                 svg += svg_highlight[0]; 
             }
             
-            // 3. Đánh dấu Thắng/Thua và Số thứ tự nước đi (Win/Move Number)
-            if (data.win_move) svg += svg_lines[4]; // Cross-hair đỏ cho winning moves
+            if (data.win_move) svg += svg_lines[4]; 
             
             if (data.piece && data.move_num && data.disp_num) {
-                // Hiển thị số nước đi (Move Number) ở lớp trên cùng (khi bật show moves)
                 var move_num_color = data.piece === 1 ? '#e2e2e2' : '#777'; 
                 var move_num_size = Math.min(cell.offsetWidth, cell.offsetHeight) * 0.28;
                 svg += '<text x="50%" y="50%" fill="' + move_num_color + '" dominant-baseline="middle" text-anchor="middle" font-weight="bold" font-size="' + move_num_size + 'px">' + data.move_num + '</text>';
             }
-
         }
         
-        // 4. Thêm số ô (Cell Number 1-256) - LUÔN LUÔN VẼ ở lớp trên cùng với màu chữ được điều chỉnh
-        // Đây là cách đảm bảo số ô luôn hiện trên quân cờ.
         svg += svg_number_tag + '<tspan fill="' + text_color + '">' + cell_num + '</tspan></text>';
         
-        // Đánh dấu Undo Move (nếu có, dùng cross-hair)
         if (data.undo_move) svg += svg_lines[4]; 
 
-        // Update node
         cell.innerHTML = svg + '</svg>';
     }
     
@@ -420,13 +390,10 @@ $(function () {
         rerender_all();
     });
 
-    // END BOARD
-
     function offerFileAsDownload(filename, mime) {
         mime = mime || 'application/octet-stream';
 
         let content = FS.readFile(filename);
-        console.log('Offering download of ' + filename + ', with ' + content.length + ' bytes...');
 
         var a = document.createElement('a');
         a.download = 'ksh.csv';
