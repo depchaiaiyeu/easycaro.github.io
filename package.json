@@ -1,18 +1,16 @@
 {
-  "name": "caro-ai-backend",
+  "name": "vercel-caro-api",
   "version": "1.0.0",
-  "description": "Caro AI API for Vercel",
-  "main": "index.js",
-  "type": "module",
+  "description": "Caro AI API using Puppeteer",
+  "main": "api/move.js",
   "scripts": {
-    "start": "node index.js"
+    "dev": "vercel dev"
   },
-  "keywords": [
-    "caro",
-    "gomoku",
-    "ai",
-    "vercel"
-  ],
-  "author": "",
-  "license": "ISC"
+  "dependencies": {
+    "@sparticuz/chromium": "^119.0.2",
+    "puppeteer-core": "^21.6.1"
+  },
+  "devDependencies": {
+    "vercel": "^33.0.0"
+  }
 }
