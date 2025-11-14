@@ -138,7 +138,6 @@ $(function () {
         
         var cellNum = get_cell_number(x, y);
         game_moves.push(cellNum);
-        updateURL();
         updateMovesDisplay();
     }
 
@@ -202,7 +201,6 @@ $(function () {
         if (x2 !== -1 && y2 !== -1) {
             game_moves.pop();
         }
-        updateURL();
         updateMovesDisplay();
         
         render_board(up, defer);
@@ -250,7 +248,6 @@ $(function () {
         game_config.first = pf === '1' ? 'human' : 'ai';
         game_moves = [];
         
-        updateURL();
         updateMovesDisplay();
         
         socket_send('START ' + variant + ' ' + level + ' ' + pf);
@@ -290,19 +287,6 @@ $(function () {
             render_board([{ x: move.x, y: move.y, change: { empty: false } }]);
             cur_reply_cnt++;
         }
-    }
-
-    function updateURL() {
-        var params = new URLSearchParams();
-        params.set('level', game_config.level);
-        params.set('first', game_config.first);
-        
-        if (game_moves.length > 0) {
-            params.set('moves', game_moves.join(','));
-        }
-        
-        var newURL = window.location.pathname + '?' + params.toString();
-        window.history.replaceState({}, '', newURL);
     }
 
     function updateMovesDisplay() {
@@ -431,7 +415,7 @@ $(function () {
             if (data.piece) svg += svg_circles[data.piece - 1];
 
             text_color = data.piece === 1 ? '#fff' : '#333';
-        
+            
             if (data.new_move) {
                 svg += svg_highlight[0]; 
             }
@@ -550,4 +534,8 @@ $(function () {
 
     $('#row_setting, #row_play').hide();
     set_panel_state(false);
+    
+    // Đảm bảo bàn cờ được khởi tạo ngay cả khi không có sự kiện resize hay wasm load ngay lập tức
+    init_board();
+    rerender_all();
 });
