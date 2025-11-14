@@ -117,7 +117,6 @@ ol, ul {
     border-top: 1px solid #e7e7e7;
 }
 
-/* Text styles */
 a {
     text-decoration: none;
 }
@@ -154,7 +153,6 @@ h4 small {
     color: #888;
 }
 
-/* Specific */
 .status-indicator {
     display: inline-block;
     width: 11px;
@@ -175,22 +173,31 @@ h4 small {
 }
 
 #tbl_board {
-    border-collapse: separate; 
+    border-collapse: collapse;
     border-spacing: 0;
-    background-color: transparent;
-    border: 1px solid #777; 
+    background-color: #44f061;
 }
 
-#tbl_board td {
-    border: 1px solid #777;
-    box-sizing: border-box;
-    padding: 0;
+/* QUAN TRỌNG: Định kiểu cho từng ô cờ (cell) */
+#tbl_board tr td {
+    border: 1px solid #777; 
+    padding: 0; 
+    margin: 0;
+    position: relative; 
+    /* Đảm bảo nội dung (SVG/số) được căn giữa */
+    text-align: center;
+    vertical-align: middle;
+}
+
+#tbl_board td:hover {
+    cursor: pointer;
+    opacity: 0.8; 
 }
 
 #game_status {
     font-weight: bold;
 }
-/* Ai selector style */
+
 section.ai-selector {
     display: flex;
     flex-flow: row wrap;
@@ -281,8 +288,6 @@ section.ai-selector {
     padding-top: 25px;
 }
 
-/*Ai Level selector*/
-
 .ai-level input[type="checkbox"],
 .ai-level input[type="radio"] {
     position: absolute;
@@ -319,7 +324,7 @@ section.ai-selector {
 .ai-level input[type="radio"] + label::before {
     border-radius: 18px;
 }
-/* Checked */
+
 .ai-level input[type="checkbox"]:checked + label,
 .ai-level input[type="radio"]:checked + label {
     padding-left: 10px;
@@ -333,7 +338,7 @@ section.ai-selector {
         height: 100%;
         background: #8e44ad;
     }
-/* Transition */
+
 .ai-level label,
 .ai-level label::before {
     -webkit-transition: .25s all ease;
@@ -341,7 +346,6 @@ section.ai-selector {
     transition: .25s all ease;
 }
 
-/*Start game button*/
 #btn_start {
     font-size: 22px;
     font-weight: bold;
@@ -353,7 +357,6 @@ section.ai-selector {
         text-align: center;
         display: flex;
         height: 100%;
-        /*border: 1px solid red;*/
         justify-content: center;
         align-items: center;
     }
@@ -367,5 +370,4 @@ section.ai-selector {
 .svg_demo_board {
     float: left;
     margin-right: 20px;
-
 }
