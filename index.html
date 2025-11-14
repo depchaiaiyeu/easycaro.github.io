@@ -2,259 +2,259 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
-  <meta name="author" content="KSH">
-  <title>KSH-AI :)</title>
-  <link href="favicon.ico" rel="icon" type="image/x-icon" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
+  <meta name="author" content="KSH">
+  <title>KSH-AI :)</title>
+  <link href="favicon.ico" rel="icon" type="image/x-icon" />
 
-  <link href="lib/bootstrap.min.css" rel="stylesheet">
-  <link href="styles.css" rel="stylesheet">
+  <link href="lib/bootstrap.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
 
-  <script src="coi-serviceworker.js"></script>
-  <script src="lib/jquery-3.6.1.min.js" defer></script>
-  <script src="lib/bootstrap.min.js" defer></script>
+  <script src="coi-serviceworker.js"></script>
+  <script src="lib/jquery-3.6.1.min.js" defer></script>
+  <script src="lib/bootstrap.min.js" defer></script>
 
-  <script src="scripts.js" defer></script>
-  <script src="brain/brain.js" defer></script>
+  <script src="scripts.js" defer></script>
+  <script src="brain/brain.js" defer></script>
 </head>
 
 <body>
-  <nav class="navbar navbar-default navbar-static-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
-          aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href=".">KSH Gomoku Ai, version 0.2.6 beta</a>
-      </div>
-      <div id="navbar" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="#" id="btn_download_logs">Logs</a></li>
-          <li><a href="https://www.youtube.com/watch?v=iZRwdoGTnj4" target="_blank">It's raining :)</a></li>
-          <li><a href="https://youtu.be/ddXTPoc8QFY?t=79" target="_blank">Kei's aegyo &lt;3</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <div class="container-fluid" style="padding-top:10px;">
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href=".">KSH Gomoku Ai, version 0.2.6 beta</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#" id="btn_download_logs">Logs</a></li>
+          <li><a href="https://www.youtube.com/watch?v=iZRwdoGTnj4" target="_blank">It's raining :)</a></li>
+          <li><a href="https://youtu.be/ddXTPoc8QFY?t=79" target="_blank">Kei's aegyo &lt;3</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container-fluid" style="padding-top:10px;">
 
 
-    <div class="row row-setting" id="row_setting">
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">AI Version</h3>
-          </div>
-          <div class="panel-body">
-            <div class="panel-inner">
-              <section class="ai-selector">
-                <div>
-                  <input type="radio" id="ai_kei" name="ai-select" value="0" checked>
-                  <label for="ai_kei">
-                    <span class="op-title">KSH</span><br />
-                    <span class="op-desc">KSH's beauty</span>
-                  </label>
-                </div>
-                <div>
-                  <input type="radio" id="ai_kei2" name="ai-select" value="0">
-                  <label for="ai_kei2">
-                    <span class="op-title">KEI</span><br />
-                    <span class="op-desc">Kei's aegyo</span>
-                  </label>
-                </div>
-              </section>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Difficulty</h3>
-            </h3>
-          </div>
-          <div class="panel-body">
-            <div class="panel-inner">
-              <div id="div_level" class="ai-level">
-                <input type="radio" name="ai-level" id="lv1" value="0" />
-                <label for="lv1">Chicken</label>
-                <input type="radio" name="ai-level" id="lv2" value="1" />
-                <label for="lv2">Easy</label>
-                <input type="radio" name="ai-level" id="lv3" value="2" checked="checked" />
-                <label for="lv3">Normal</label>
-                <input type="radio" name="ai-level" id="lv4" value="3" />
-                <label for="lv4">Medium</label>
-                <input type="radio" name="ai-level" id="lv5" value="4" />
-                <label for="lv5">Hard</label>
-                <input type="radio" name="ai-level" id="lv6" value="5" />
-                <label for="lv6">Fuck me</label>
-              </div>
-            </div>
-        </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              Who goes first
-              <div class="pull-right">
-                <div class="ws_indicator status-indicator" style="display:none"></div>
-                <span class="ws_status" style="display:none"></span>
-              </div>
-            </h3>
-          </div>
-          <div class="panel-body">
-            <div class="panel-inner">
-              <div class="ai-level">
-                <input type="radio" name="play-first" id="ai_first" value="0" checked="checked" />
-                <label for="ai_first">AI</label>
-                <input type="radio" name="play-first" id="human_first" value="1" />
-                <label for="human_first">Human</label>
-              </div>
-              <button id="btn_start" type="button" class="btn btn-primary btn-md" disabled="disabled">
-                Start Game !
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="row row-setting" id="row_setting">
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">AI Version</h3>
+          </div>
+          <div class="panel-body">
+            <div class="panel-inner">
+              <section class="ai-selector">
+                <div>
+                  <input type="radio" id="ai_kei" name="ai-select" value="0" checked>
+                  <label for="ai_kei">
+                    <span class="op-title">KSH</span><br />
+                    <span class="op-desc">KSH's beauty</span>
+                  </label>
+                </div>
+                <div>
+                  <input type="radio" id="ai_kei2" name="ai-select" value="0">
+                  <label for="ai_kei2">
+                    <span class="op-title">KEI</span><br />
+                    <span class="op-desc">Kei's aegyo</span>
+                  </label>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Difficulty
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="panel-inner">
+              <div id="div_level" class="ai-level">
+                <input type="radio" name="ai-level" id="lv1" value="0" />
+                <label for="lv1">Chicken</label>
+                <input type="radio" name="ai-level" id="lv2" value="1" />
+                <label for="lv2">Easy</label>
+                <input type="radio" name="ai-level" id="lv3" value="2" checked="checked" />
+                <label for="lv3">Normal</label>
+                <input type="radio" name="ai-level" id="lv4" value="3" />
+                <label for="lv4">Medium</label>
+                <input type="radio" name="ai-level" id="lv5" value="4" />
+                <label for="lv5">Hard</label>
+                <input type="radio" name="ai-level" id="lv6" value="5" />
+                <label for="lv6">Fuck me</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              Who goes first
+              <div class="pull-right">
+                <div class="ws_indicator status-indicator" style="display:none"></div>
+                <span class="ws_status" style="display:none"></span>
+              </div>
+            </h3>
+          </div>
+          <div class="panel-body">
+            <div class="panel-inner">
+              <div class="ai-level">
+                <input type="radio" name="play-first" id="ai_first" value="0" checked="checked" />
+                <label for="ai_first">AI</label>
+                <input type="radio" name="play-first" id="human_first" value="1" />
+                <label for="human_first">Human</label>
+              </div>
+              <button id="btn_start" type="button" class="btn btn-primary btn-md" disabled="disabled">
+                Start Game !
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div class="row row-intro" id="row_intro">
+    <div class="row row-intro" id="row_intro">
 
-      <div class="col-md-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">About Gomoku Game and KSH-AI</h3>
-          </div>
-          <div class="panel-body">
-            <div class="panel-inner">
-              <span>
-                &nbsp;&nbsp;&nbsp;&nbsp; <strong>Gomoku</strong>, also called Gobang or <strong>Five in a Row</strong>,
-                is an abstract strategy board game.
-                It is traditionally played with Go pieces (black and white stones) on a Go board,
-                using <strong>16×16</strong> (256 cells) grid intersections.
-                Mỗi ô trên bàn cờ được đánh số từ <strong>1 đến 256</strong> để dễ dàng theo dõi nước đi.
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp; Players alternate turns placing a stone of their color on an empty
-                intersection.
-                <strong>
-                  The winner is the first player to form an unbroken chain of five stones
-                  horizontally, vertically, or diagonally.
-                </strong>
-                <strong>KSH-AI</strong> plays on standard variation.
-                <strong>Standard Gomoku</strong> requires a row of <strong>exactly five stones</strong>
-                for a win: rows of six or more, called overlines, do not count.
-                <br />
-                &nbsp;&nbsp;&nbsp;&nbsp; <strong>KSH-AI</strong> is an
-                <strong>Gomoku AI Engine</strong> written by <strong>K</strong>,
-                named after a beautiful, lovely and talented actress Kim So Hyun.
-                <strong>KEI-AI</strong> is a variant of KSH-AI with more cuteness from Kei of Lovelyz.
-                However, KEI-AI is currently under heavy development so that it is really unstable.
-                At the moment, KSH-AI uses various strategy and algorithm to play against the user,
-                including cell evalution, database search, mini-max search with alpha-beta pruning,
-                transposition table with hash and iterative deepening. <strong>Special thanks to:</strong>
-                Yunzhu Li (this UI is inspired by his project - blupig), Michał Czardybon (for opening moves in Carbon
-                AI)
-                and Alex Hultman (libwshandshake for calculating Websocket handshake key according to RFC6455).
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">About Gomoku Game and KSH-AI</h3>
+          </div>
+          <div class="panel-body">
+            <div class="panel-inner">
+              <span>
+                &nbsp;&nbsp;&nbsp;&nbsp; <strong>Gomoku</strong>, also called Gobang or <strong>Five in a Row</strong>,
+                is an abstract strategy board game.
+                It is traditionally played with Go pieces (black and white stones) on a Go board,
+                using <strong>16×16</strong> (256 cells) grid intersections.
+                Mỗi ô trên bàn cờ được đánh số từ <strong>1 đến 256</strong> để dễ dàng theo dõi nước đi.
+                <br />
+                &nbsp;&nbsp;&nbsp;&nbsp; Players alternate turns placing a stone of their color on an empty
+                intersection.
+                <strong>
+                  The winner is the first player to form an unbroken chain of five stones
+                  horizontally, vertically, or diagonally.
+                </strong>
+                <strong>KSH-AI</strong> plays on standard variation.
+                <strong>Standard Gomoku</strong> requires a row of <strong>exactly five stones</strong>
+                for a win: rows of six or more, called overlines, do not count.
+                <br />
+                &nbsp;&nbsp;&nbsp;&nbsp; <strong>KSH-AI</strong> is an
+                <strong>Gomoku AI Engine</strong> written by <strong>K</strong>,
+                named after a beautiful, lovely and talented actress Kim So Hyun.
+                <strong>KEI-AI</strong> is a variant of KSH-AI with more cuteness from Kei of Lovelyz.
+                However, KEI-AI is currently under heavy development so that it is really unstable.
+                At the moment, KSH-AI uses various strategy and algorithm to play against the user,
+                including cell evalution, database search, mini-max search with alpha-beta pruning,
+                transposition table with hash and iterative deepening. <strong>Special thanks to:</strong>
+                Yunzhu Li (this UI is inspired by his project - blupig), Michał Czardybon (for opening moves in Carbon
+                AI)
+                and Alex Hultman (libwshandshake for calculating Websocket handshake key according to RFC6455).
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-    </div>
-
-
-    <div class="row" id="row_play">
-      
-              <svg width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <defs>
-          <g id="black_piece">
-            <circle cx="50%" cy="50%" r="32%" fill="#333" />
-          </g>
-          <g id="white_piece">
-            <circle cx="50%" cy="50%" r="32%" fill="#fff" stroke="#333" stroke-width="1px" />
-          </g>
-        </defs>
-      </svg>
-              <div class="col-md-8">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="panel-title">
-              Gomoku
-              <div id="div_pb_outer" class="progress pull-right">
-                <div id="div_pb_inner" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                  aria-valuemax="100">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="panel_gamearea" class="panel-body text-center">
-            <div id="div_gamearea" style="margin: 0 auto; ">
-              <table id="tbl_board"></table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">
-              Game Status
-              <div class="pull-right">
-                <div class="ws_indicator status-indicator" style="display:none"></div>
-                <span class="ws_status" style="display:none"></span>
-              </div>
-            </h3>
-          </div>
-          <div id="panel_status" class="panel-body">
-            <div id="game_status"></div>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Game Control</h3>
-          </div>
-          <div class="panel-body">
-            <button id="btn_restart" type="button" class="btn btn-primary btn-md" disabled="disabled">
-              Restart
-            </button>
-            <button id="btn_undo" type="button" class="btn btn-primary btn-md" disabled="disabled">
-              Undo
-            </button>
-            <button id="btn_showmoves" type="button" style="display: none;" class="btn btn-primary btn-md">
-              Show Moves
-            </button>
-            <button id="btn_prevmove" type="button" style="display: none;" class="btn btn-primary btn-md">
-              &lt;&lt;
-            </button>
-            <button id="btn_nextmove" type="button" style="display: none;" class="btn btn-primary btn-md">
-              &gt;&gt;
-            </button>
-          </div>
-        </div>
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h3 class="panel-title">Statistics</h3>
-          </div>
-          <div class="panel-body">
-            <div id="ai_msg">Hello!</div>
-            <textarea id="ai_logs">No logs</textarea>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    </div>
 
 
-  </div>
+    <div class="row" id="row_play">
+      
+        <svg width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <defs>
+          <g id="black_piece">
+            <circle cx="50%" cy="50%" r="32%" fill="#333" />
+          </g>
+          <g id="white_piece">
+            <circle cx="50%" cy="50%" r="32%" fill="#fff" stroke="#333" stroke-width="1px" />
+          </g>
+        </defs>
+      </svg>
+      <div class="col-md-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="panel-title">
+              Gomoku
+              <div id="div_pb_outer" class="progress pull-right">
+                <div id="div_pb_inner" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0"
+                  aria-valuemax="100">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="panel_gamearea" class="panel-body text-center">
+            <div id="div_gamearea" style="margin: 0 auto; ">
+              <table id="tbl_board"></table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">
+              Game Status
+              <div class="pull-right">
+                <div class="ws_indicator status-indicator" style="display:none"></div>
+                <span class="ws_status" style="display:none"></span>
+              </div>
+            </h3>
+          </div>
+          <div id="panel_status" class="panel-body">
+            <div id="game_status"></div>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Game Control</h3>
+          </div>
+          <div class="panel-body">
+            <button id="btn_restart" type="button" class="btn btn-primary btn-md" disabled="disabled">
+              Restart
+            </button>
+            <button id="btn_undo" type="button" class="btn btn-primary btn-md" disabled="disabled">
+              Undo
+            </button>
+            <button id="btn_showmoves" type="button" style="display: none;" class="btn btn-primary btn-md">
+              Show Moves
+            </button>
+            <button id="btn_prevmove" type="button" style="display: none;" class="btn btn-primary btn-md">
+              &lt;&lt;
+            </button>
+            <button id="btn_nextmove" type="button" style="display: none;" class="btn btn-primary btn-md">
+              &gt;&gt;
+            </button>
+          </div>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Statistics</h3>
+          </div>
+          <div class="panel-body">
+            <div id="ai_msg">Hello!</div>
+            <textarea id="ai_logs">No logs</textarea>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
 </body>
 
 </html>
